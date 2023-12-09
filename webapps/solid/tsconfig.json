@@ -1,0 +1,22 @@
+{
+	"extends": "./tsconfig.base.json",
+	"display": "dev/solid",
+	"compilerOptions": {
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+
+		"module": "ESNext",
+		"target": "ES2021",
+		"lib": ["ESNext", "DOM", "DOM.Iterable"],
+		"types": ["vite/client", "vitest/globals"],
+
+		"baseUrl": ".",
+		"outDir": ".local/build",
+
+		"paths": {
+			"~/*": ["./source/*"],
+			"$panda/*": ["./.local/panda/*"]
+		}
+	},
+	"include": ["*.ts", "source", ".local/panda"]
+}

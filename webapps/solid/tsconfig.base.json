@@ -1,0 +1,52 @@
+{
+	"display": "dev/base",
+	"compilerOptions": {
+		// general rules
+		"pretty": true,
+
+		// code checking rules
+		"strict": true,
+		"allowJs": false,
+		"skipLibCheck": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"noImplicitOverride": true,
+		"forceConsistentCasingInFileNames": true,
+		"useDefineForClassFields": true,
+
+		// stricter type checking rules
+		"noUncheckedIndexedAccess": true,
+		"verbatimModuleSyntax": true,
+		"noImplicitAny": true,
+		// alwaysStrict is false to prevent esbuild from adding `"use strict";`
+		"alwaysStrict": false,
+
+		// code importing rules
+		"allowSyntheticDefaultImports": true,
+		"allowImportingTsExtensions": true,
+		"moduleResolution": "Bundler",
+		"moduleDetection": "force",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"preserveSymlinks": false,
+		"isolatedModules": true,
+
+		// code generation rules
+		"sourceMap": true,
+		"importHelpers": true,
+		"downlevelIteration": true,
+
+		// type generating rules
+		"noEmit": true,
+		"emitDeclarationOnly": false,
+
+		// package
+		"module": "ESNext",
+		"target": "ESNext",
+		"lib": ["ESNext"]
+	}
+}

@@ -1,0 +1,24 @@
+{
+	"name": "@workbotic/solid",
+	"version": "0.0.0",
+	"scripts": {
+		"start": "vite",
+		"dev": "panda codegen --clean && vite",
+		"build": "vite build",
+		"serve": "vite preview"
+	},
+	"devDependencies": {
+		"@pandacss/dev": "latest",
+		"typescript": "^5",
+		"vite": "^4",
+		"vite-plugin-solid": "^2",
+		"vite-tsconfig-paths": "^4",
+		"vitest": "beta"
+	},
+	"dependencies": {
+		"@atlaskit/pragmatic-drag-and-drop": "latest",
+		"@atlaskit/pragmatic-drag-and-drop-hitbox": "^0.12.0",
+		"@solidjs/router": "latest",
+		"solid-js": "^1.8"
+	}
+}
