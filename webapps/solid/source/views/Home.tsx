@@ -1,17 +1,14 @@
 import { Stack } from "$panda/jsx"
 import DraggableItem from "~/components/Drag-and-Drop/DraggableItem"
+import Lexical from "~/components/Lexical"
 
 export default function Main() {
 	return (
 		<Stack flex="1" justify="center" align="center">
 			<h1>Playground</h1>
-			<div style={styles.root}>
-				<DraggableItem id={1} />
-				<DraggableItem id={2} />
-				<DraggableItem id={3} />
-				<DraggableItem id={4} />
-				<DraggableItem id={5} />
-			</div>
+			<Stack>
+				<Lexical />
+			</Stack>
 		</Stack>
 	)
 }
