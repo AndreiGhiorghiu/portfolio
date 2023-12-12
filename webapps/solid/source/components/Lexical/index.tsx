@@ -2,8 +2,31 @@ import { Stack } from "$panda/jsx"
 import { createEffect } from "solid-js"
 import { HeadingNode, QuoteNode } from "@lexical/rich-text"
 import { registerPlainText } from "@lexical/plain-text"
-import { $getRoot, createEditor, LineBreakNode, ParagraphNode, TextNode } from "lexical"
+import {
+	$createParagraphNode,
+	$createTextNode,
+	$getRoot,
+	$getSelection,
+	CAN_UNDO_COMMAND,
+	createEditor,
+	FORMAT_TEXT_COMMAND,
+	LineBreakNode,
+	ParagraphNode,
+	TextNode,
+	UNDO_COMMAND,
+	type INTERNAL_PointSelection,
+	$isRangeSelection,
+} from "lexical"
 import { ListNode, ListItemNode } from "@lexical/list"
+import { CodeHighlightNode, CodeNode } from "@lexical/code"
+import {
+	registerMarkdownShortcuts,
+	TRANSFORMERS,
+	$convertToMarkdownString,
+} from "@lexical/markdown"
+import { LinkNode } from "@lexical/link"
+import { mergeRegister } from "@lexical/utils"
+import { $wrapNodes } from "@lexical/selection"
 
 const exampleTheme = {
 	ltr: "ltr",
@@ -79,35 +102,78 @@ const exampleTheme = {
 export default function Lexical() {
 	let ref: HTMLDivElement | undefined
 
-	const config = {}
-
 	const editor = createEditor({
-		namespace: "MyEditor",
-		theme: exampleTheme,
-		onError: console.error,
-		editable: true,
-		nodes: [HeadingNode, QuoteNode, ListNode],
+		onError: e => console.log("error", e),
+		// theme: exampleTheme,
+		nodes: [
+			HeadingNode,
+			CodeHighlightNode,
+			QuoteNode,
+			CodeNode,
+			ListItemNode,
+			ListNode,
+			LineBreakNode,
+			ParagraphNode,
+			TextNode,
+			LinkNode,
+		],
 	})
 
 	createEffect(() => {
 		if (ref) {
+			console.log("ref", ref)
 			editor.setRootElement(ref)
 
 			registerPlainText(editor)
-			editor.registerUpdateListener(({ editorState }) => {
-				editorState.read(() => {
-					// const toMarkdownString = $convertToMarkdownString(TRANSFORMERS)
-					// console.log(toMarkdownString)
-					const root = $getRoot()
-					console.log("test", root.getTextContent())
+			registerMarkdownShortcuts(editor, TRANSFORMERS)
+
+			setTimeout(() => {
+				editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")
+
+				editor.update(() => {
+					const selection = $getSelection()
+
+					const test = $isRangeSelection(selection)
+					if (selection) {
+					}
+					console.log("test123", test)
 				})
-			})
+			}, 5000)
+
+			console.log([ref])
+
+			mergeRegister(
+				editor.registerUpdateListener(({ editorState }) => {
+					editorState.read(() => {
+						const toMarkdownString = $convertToMarkdownString(TRANSFORMERS)
+						console.log("asd", toMarkdownString)
+						const root = $getRoot()
+
+						console.log("root", root.exportJSON())
+						console.log("test", root.getTextContent())
+					})
+				}),
+				editor.registerCommand(
+					FORMAT_TEXT_COMMAND,
+					payoload => {
+						console.log("payoload", payoload)
+						return false
+					},
+					1
+				)
+			)
 		}
 	})
 
 	return (
-		<Stack width="500px" height="600px" ref={ref} contentEditable>
-			Lexical
-		</Stack>
+		<>
+			<Stack
+				paddingX={5}
+				width="500px"
+				height="600px"
+				ref={ref}
+				contentEditable
+			></Stack>
+		</>
 	)
 }
